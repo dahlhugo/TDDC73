@@ -130,8 +130,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
+            SizedBox(height: 40),
             Row(
-              children: [Text("Email: "), TextField()],
+              children: [
+                SizedBox(width: 10),
+                FittedBox(
+                  fit: BoxFit.contain,
+                  child: Text("Email "),
+                ),
+                SizedBox(width: 60),
+                SizedBox(width: 200, child: TextField())
+              ],
             )
           ],
         ));
