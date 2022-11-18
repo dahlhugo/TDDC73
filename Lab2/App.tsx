@@ -18,6 +18,7 @@ import {
   View,
 } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
+import DropDown from './components/dropdown';
 
 const years = [
   '2022',
@@ -59,35 +60,15 @@ const App = () => {
         <TextInput style={styles.inputField}></TextInput>
         <Text style={styles.inputTitle}>Card Name</Text>
         <TextInput style={styles.inputField}></TextInput>
-        <View style={styles.selectorRow}>
-        <SelectDropdown
-            data={years}
-            buttonStyle={styles.select}
-            defaultButtonText="Month"
-            onSelect={(selectedItem, index) => {
-              console.log(selectedItem, index);
-            }}
-            buttonTextAfterSelection={(selectedItem, index) => {
-              return selectedItem;
-            }}
-            rowTextForSelection={(item, index) => {
-              return item;
-            }}
-          />
-          <SelectDropdown
-            data={years}
-            buttonStyle={styles.select}
-            defaultButtonText="Year"
-            onSelect={(selectedItem, index) => {
-              console.log(selectedItem, index);
-            }}
-            buttonTextAfterSelection={(selectedItem, index) => {
-              return selectedItem;
-            }}
-            rowTextForSelection={(item, index) => {
-              return item;
-            }}
-          />
+        <View style={{flexDirection: 'column'}}>
+          <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
+            <Text style={styles.inputTitle}>Expiration Date</Text>
+          </View>
+          <View style={styles.selectorRow}>
+            <DropDown data={months} buttonText="month" />
+            <DropDown data={years} buttonText="year" />
+            <TextInput style={styles.smallInput}></TextInput>
+          </View>
         </View>
       </View>
     </SafeAreaView>
@@ -145,6 +126,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
+  smallInput: {
+    borderRadius: 5,
+    flex: 0.3,
+    borderWidth: 1,
+    borderColor: 'lightgrey',
+    color: 'black',
+    fontSize: 16,
+    marginLeft: 20,
+  },
+
   inputTitle: {
     marginTop: 20,
     marginLeft: 37,
@@ -153,11 +144,9 @@ const styles = StyleSheet.create({
   },
 
   selectorRow: {
+    width: '80%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  select: {
-    width: '20%',
   },
 });
 
