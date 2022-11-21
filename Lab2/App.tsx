@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
+  NativeSyntheticEvent,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -24,31 +25,39 @@ const years = [
 ];
 
 const months = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
+  '01',
+  '02',
+  '03',
+  '04',
+  '05',
+  '06',
+  '07',
+  '08',
+  '09',
+  '10',
+  '11',
+  '12',
 ];
 
 
 
 const App = () => {
+  const [cardNumber, setCardNumber] = useState("#### #### #### ####")
+  const [name, setName] = useState("John Doe");
+  const [month, setMonth] = useState("MM");
+  const [year, setYear] = useState("YY");
+  const [cvv, setCvv] = useState("");
+
+  
+
   return (
     <SafeAreaView style={styles.main}>
-      <CreditCard/>
+      <CreditCard cardNumber={cardNumber} name={name} month={month} year={year} cvv={cvv}/>
       <View style={styles.inputFields}>
         <Text style={styles.inputTitle}>Card Number</Text>
         <TextInput style={styles.inputField}></TextInput>
         <Text style={styles.inputTitle}>Card Name</Text>
-        <TextInput style={styles.inputField}></TextInput>
+        <TextInput onChangeText={text => setName(text)} style={styles.inputField}></TextInput>
         <View style={{ flexDirection: 'column', width: '80%' }}>
           <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
             <Text style={styles.dropdownTitle}>Expiration Date</Text>
@@ -71,7 +80,10 @@ const App = () => {
       </View>
     </SafeAreaView>
   );
+
 };
+
+
 
 const styles = StyleSheet.create({
   main: {
