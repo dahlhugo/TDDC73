@@ -1,11 +1,13 @@
-/* eslint-disable prettier/prettier */
+
 import React from 'react';
-import {  } from 'react-native';
+import { Image } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
+
+import icon from '../assets/images/arrow-down.png';
 
 export type Props = {
   data: string[];
-	buttonText: string;
+buttonText: string;
 }
 
 const DropDown = ({data, buttonText = "choose option"}: Props) => {
@@ -21,6 +23,7 @@ const DropDown = ({data, buttonText = "choose option"}: Props) => {
 			rowTextForSelection={(item, index) => {
 				return item;
 			}}
+			renderDropdownIcon={() => {return <Image style={{width: 10, height: 10}} source={icon}/>}}
 		/>);
 }
 

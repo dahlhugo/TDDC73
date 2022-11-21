@@ -1,16 +1,6 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
 import React from 'react';
 import {
-  ImageBackground,
+  Button,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -18,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
+import CreditCard from './components/creditcard';
 import DropDown from './components/dropdown';
 
 const years = [
@@ -47,28 +38,35 @@ const months = [
   'Dec',
 ];
 
-const cardFrontImage = require('./assets/images/6.jpeg');
+
 
 const App = () => {
   return (
     <SafeAreaView style={styles.main}>
-      <ImageBackground source={cardFrontImage} style={styles.card} imageStyle={{ borderRadius: 10 }}>
-
-      </ImageBackground>
+      <CreditCard/>
       <View style={styles.inputFields}>
         <Text style={styles.inputTitle}>Card Number</Text>
         <TextInput style={styles.inputField}></TextInput>
         <Text style={styles.inputTitle}>Card Name</Text>
         <TextInput style={styles.inputField}></TextInput>
-        <View style={{flexDirection: 'column'}}>
-          <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-            <Text style={styles.inputTitle}>Expiration Date</Text>
+        <View style={{ flexDirection: 'column', width: '80%' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
+            <Text style={styles.dropdownTitle}>Expiration Date</Text>
+            <Text style={styles.smallInputTitle}>CVV</Text>
           </View>
           <View style={styles.selectorRow}>
             <DropDown data={months} buttonText="month" />
             <DropDown data={years} buttonText="year" />
             <TextInput style={styles.smallInput}></TextInput>
           </View>
+          <Button
+            onPress={() => {
+              return this;
+            }}
+            title="Submit"
+            accessibilityLabel="Submit info"
+            
+          />
         </View>
       </View>
     </SafeAreaView>
@@ -100,23 +98,6 @@ const styles = StyleSheet.create({
     paddingTop: 70,
   },
 
-  card: {
-    width: 300,
-    height: 200,
-    borderRadius: 20,
-    position: 'absolute',
-    top: 50,
-    left: 42,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 7,
-  },
-
   inputField: {
     borderRadius: 5,
     width: '80%',
@@ -136,17 +117,32 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
 
+  smallInputTitle: {
+    marginTop: 10,
+    color: 'black',
+    flex: 1,
+    marginLeft: 60,
+  },
+
   inputTitle: {
-    marginTop: 20,
+    marginTop: 10,
     marginLeft: 37,
     color: 'black',
     alignSelf: 'flex-start',
   },
 
+  dropdownTitle: {
+    marginTop: 10,
+    color: 'black',
+    alignSelf: 'flex-start',
+    flex: 2,
+  },
+
   selectorRow: {
-    width: '80%',
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: 10,
   },
 });
 
