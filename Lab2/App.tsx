@@ -42,30 +42,28 @@ const months = [
 
 
 const App = () => {
-  const [cardNumber, setCardNumber] = useState("#### #### #### ####")
-  const [name, setName] = useState("John Doe");
-  const [month, setMonth] = useState("MM");
-  const [year, setYear] = useState("YY");
-  const [cvv, setCvv] = useState("");
-
-  
+  const [cardNumber, setCardNumber] = useState('#### #### #### ####')
+  const [name, setName] = useState('John Doe');
+  const [month, setMonth] = useState('MM');
+  const [year, setYear] = useState('YY');
+  const [cvv, setCvv] = useState("");  
 
   return (
     <SafeAreaView style={styles.main}>
       <CreditCard cardNumber={cardNumber} name={name} month={month} year={year} cvv={cvv}/>
       <View style={styles.inputFields}>
         <Text style={styles.inputTitle}>Card Number</Text>
-        <TextInput style={styles.inputField}></TextInput>
+        <TextInput onChangeText={(text => setCardNumber(text))} style={styles.inputField}></TextInput>
         <Text style={styles.inputTitle}>Card Name</Text>
-        <TextInput onChangeText={text => setName(text)} style={styles.inputField}></TextInput>
+        <TextInput onChangeText={text => {setName(text); }} style={styles.inputField}></TextInput>
         <View style={{ flexDirection: 'column', width: '80%' }}>
           <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
             <Text style={styles.dropdownTitle}>Expiration Date</Text>
             <Text style={styles.smallInputTitle}>CVV</Text>
           </View>
           <View style={styles.selectorRow}>
-            <DropDown data={months} buttonText="month" />
-            <DropDown data={years} buttonText="year" />
+            <DropDown data={months} buttonText="month" onSelectItem={(selectedItem) => setMonth(selectedItem)}/>
+            <DropDown data={years} buttonText="year" onSelectItem={(selectedItem) => setYear(selectedItem)}/>
             <TextInput style={styles.smallInput}></TextInput>
           </View>
           <Button

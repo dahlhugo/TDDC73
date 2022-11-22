@@ -7,15 +7,16 @@ import icon from '../assets/images/arrow-down.png';
 
 export type Props = {
   data: string[];
-buttonText: string;
+	buttonText: string;
+	onSelectItem: (item: string) => void;
 }
 
-const DropDown = ({data, buttonText = "choose option"}: Props) => {
+const DropDown = ({data, buttonText = "choose option", onSelectItem	}: Props) => {
 
 	return (
 		<SelectDropdown data={data} buttonStyle={styles.select} defaultButtonText={buttonText} buttonTextStyle={styles.text}
 			onSelect={(selectedItem, index) => {
-				console.log(selectedItem, index);
+				onSelectItem(selectedItem);
 			}} 
 			buttonTextAfterSelection={(selectedItem, index) => {
 				return selectedItem;

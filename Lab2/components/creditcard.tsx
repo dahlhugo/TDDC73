@@ -1,9 +1,16 @@
-import React from 'react';
-import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { BackHandler, Image, ImageBackground, ImageSourcePropType, StyleSheet, Text, View } from 'react-native';
 
 import chip from '../assets/images/chip.png';
 import cardFrontImage from '../assets/images/6.jpeg';
+
 import visa from '../assets/images/visa.png';
+import dinersclub from '../assets/images/dinersclub.png';
+import discover from '../assets/images/discover.png';
+import jcb from '../assets/images/jcb.png';
+import mastercard from '../assets/images/mastercard.png';
+import troy from '../assets/images/troy.png';
+import unionpay from '../assets/images/unionpay.png';
 
 type Props = {
   cardNumber: string;
@@ -13,8 +20,36 @@ type Props = {
   cvv: string;
 };
 
+let compImage: ImageSourcePropType;
+
 const CreditCard = ({cardNumber, name, month, year, cvv}: Props) => {
-  
+
+  const handleCompanyImage = () => {
+    if(cardNumber[0] === '3' && cardNumber[1] === '5') {
+      return jcb;
+    }
+    else if(cardNumber[0] === '3'){
+      return dinersclub;
+    }
+    else if(cardNumber[0] === '4') {
+      return visa;
+    }
+    else if(cardNumber[0] === '5') {
+      return mastercard;
+    }
+    else if(cardNumber[0] === '6' && cardNumber[1] === '2'){
+      return unionpay; 
+    }
+    else if(cardNumber[0] === '6' && cardNumber[1] === '5'){
+      return troy; 
+    }
+    else {
+      return discover;
+    }
+  }
+
+  compImage = handleCompanyImage();
+
   return (
     <ImageBackground 
       source={cardFrontImage}
@@ -22,7 +57,7 @@ const CreditCard = ({cardNumber, name, month, year, cvv}: Props) => {
       imageStyle={{ borderRadius: 10 }}>
       <View style={styles.imageRow}>
         <Image style={{flex: 0.2, width: undefined, height: undefined, resizeMode: 'contain' }} source={chip} />
-        <Image style={{flex: 0.3, width: undefined, height: undefined, resizeMode: 'contain' }} source={visa} />
+        <Image style={{flex: 0.35, width: undefined, height: undefined, resizeMode: 'contain' }} source={compImage} />
       </View>
       <View style={styles.numberWrapper}><Text style={styles.hugeFont}>{cardNumber}</Text></View>
       <View style={styles.inputText}>
@@ -32,7 +67,7 @@ const CreditCard = ({cardNumber, name, month, year, cvv}: Props) => {
         </View>
         <View style={styles.expires}>
           <Text style={styles.font}>Expires</Text>
-          <Text style={styles.bigFont}>{month + '/' + ((year === 'MM') ? year.slice(2) : year)}</Text>
+          <Text style={styles.bigFont}>{month + '/' + ((year !== 'YY') ? year.slice(2) : year)}</Text>
         </View>
       </View>
     </ImageBackground >
@@ -64,7 +99,7 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 20,
     position: 'absolute',
-    top: 50,
+    top: 30,
     left: 42,
     shadowColor: '#000',
     shadowOffset: {
