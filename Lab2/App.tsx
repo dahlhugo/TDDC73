@@ -112,6 +112,11 @@ const App = () => {
     setCardNumber(result);
   }
 
+  const handleCvvChange = (text: string) => {
+    let result = text.replace(/[^0-9]/gi, '');
+    setCvv(result);
+  }
+
   return (
     <SafeAreaView style={styles.main}>
       <FlipCard ref={card} flipDirection={"h"} style={styles.flipCard}>
@@ -132,7 +137,7 @@ const App = () => {
           <View style={styles.selectorRow}>
             <DropDown data={months} buttonText="month" onSelectItem={(selectedItem) => setMonth(selectedItem)} onFocus={handleFlipFront}/>
             <DropDown data={years} buttonText="year" onSelectItem={(selectedItem) => setYear(selectedItem)} onFocus={handleFlipFront}/>
-            <TextInput maxLength={3} onFocus={() => handleFlipBack()} onChangeText={(text) => setCvv(text)} style={styles.smallInput} keyboardType='numeric'></TextInput>
+            <TextInput value={cvv} maxLength={3} onFocus={() => handleFlipBack()} onChangeText={(text) => handleCvvChange(text)} style={styles.smallInput} keyboardType='numeric'></TextInput>
           </View>
           <Button
             onPress={() => {
