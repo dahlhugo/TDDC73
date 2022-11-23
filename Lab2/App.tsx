@@ -1,16 +1,28 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
-  Button,
-  NativeSyntheticEvent,
-  SafeAreaView,
+  Button, SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
-  View,
+  View
 } from 'react-native';
-import SelectDropdown from 'react-native-select-dropdown';
-import CreditCard from './components/creditcard';
+
+import FlipCard from 'react-native-flip-card-plus';
+
+import CreditCardFront from './components/creditcardfront';
+import CreditCardBack from './components/creditcardback';
 import DropDown from './components/dropdown';
+
+import visa from './assets/images/visa.png';
+import dinersclub from './assets/images/dinersclub.png';
+import discover from './assets/images/discover.png';
+import jcb from './assets/images/jcb.png';
+import mastercard from './assets/images/mastercard.png';
+import troy from './assets/images/troy.png';
+import unionpay from './assets/images/unionpay.png';
+
+
+
 
 const years = [
   '2022',
@@ -39,40 +51,95 @@ const months = [
   '12',
 ];
 
+let isFlipped = false;
 
 
 const App = () => {
-  const [cardNumber, setCardNumber] = useState('#### #### #### ####')
-  const [name, setName] = useState('John Doe');
+  const [cardNumber, setCardNumber] = useState('')
+  const [name, setName] = useState('');
   const [month, setMonth] = useState('MM');
   const [year, setYear] = useState('YY');
-  const [cvv, setCvv] = useState("");  
+  const [cvv, setCvv] = useState("");
+  const card: FlipCard = useRef(null);
+
+  
+
+  const handleFlipFront = () =>{
+    if(card.current !== null && isFlipped) {
+      card.current.flipHorizontal();
+      isFlipped = false;
+    }
+  };
+
+  const handleFlipBack = () =>{
+    if(card.current !== null && !isFlipped) {
+      card.current.flipHorizontal();
+      isFlipped = true;
+    }
+  };
+
+  const handleCompanyImage = () => {
+    if(cardNumber[0] === '3' && cardNumber[1] === '5') {
+      return jcb;
+    }
+    else if(cardNumber[0] === '3'){
+      return dinersclub;
+    }
+    else if(cardNumber[0] === '4') {
+      return visa;
+    }
+    else if(cardNumber[0] === '5') {
+      return mastercard;
+    }
+    else if(cardNumber[0] === '6' && cardNumber[1] === '2'){
+      return unionpay; 
+    }
+    else if(cardNumber[0] === '6' && cardNumber[1] === '5'){
+      return troy; 
+    }
+    else {
+      return discover;
+    }
+  };
+  
+  const handleNameChange = (text: string) => {
+    const result = text.replace(/[^a-z -]/gi, '');
+    setName(result);
+  }
+
+  const handleCardNumberChange = (text: string) => {
+    let result = text.replace(/[^\d]/g, '').replace(/(.{4})/g, '$1 ').trim();
+    setCardNumber(result);
+  }
 
   return (
     <SafeAreaView style={styles.main}>
-      <CreditCard cardNumber={cardNumber} name={name} month={month} year={year} cvv={cvv}/>
+      <FlipCard ref={card} flipDirection={"h"} style={styles.flipCard}>
+        <CreditCardFront cardNumber={cardNumber} name={name} month={month} year={year} handleCompanyImage={handleCompanyImage}/>
+        <CreditCardBack cvv={cvv} handleCardCompany={handleCompanyImage}/>
+      </FlipCard>
+      
       <View style={styles.inputFields}>
         <Text style={styles.inputTitle}>Card Number</Text>
-        <TextInput onChangeText={(text => setCardNumber(text))} style={styles.inputField}></TextInput>
+        <TextInput value={cardNumber} keyboardType='number-pad' maxLength={16} onChangeText={(text) => handleCardNumberChange(text)} onFocus={handleFlipFront} style={styles.inputField}></TextInput>
         <Text style={styles.inputTitle}>Card Name</Text>
-        <TextInput onChangeText={text => {setName(text); }} style={styles.inputField}></TextInput>
+        <TextInput value={name} onChangeText={text => handleNameChange(text)} style={styles.inputField} onFocus={handleFlipFront}></TextInput>
         <View style={{ flexDirection: 'column', width: '80%' }}>
           <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
             <Text style={styles.dropdownTitle}>Expiration Date</Text>
             <Text style={styles.smallInputTitle}>CVV</Text>
           </View>
           <View style={styles.selectorRow}>
-            <DropDown data={months} buttonText="month" onSelectItem={(selectedItem) => setMonth(selectedItem)}/>
-            <DropDown data={years} buttonText="year" onSelectItem={(selectedItem) => setYear(selectedItem)}/>
-            <TextInput style={styles.smallInput}></TextInput>
+            <DropDown data={months} buttonText="month" onSelectItem={(selectedItem) => setMonth(selectedItem)} onFocus={handleFlipFront}/>
+            <DropDown data={years} buttonText="year" onSelectItem={(selectedItem) => setYear(selectedItem)} onFocus={handleFlipFront}/>
+            <TextInput maxLength={3} onFocus={() => handleFlipBack()} onChangeText={(text) => setCvv(text)} style={styles.smallInput} keyboardType='numeric'></TextInput>
           </View>
           <Button
             onPress={() => {
               return this;
             }}
             title="Submit"
-            accessibilityLabel="Submit info"
-            
+            accessibilityLabel="Submit info"            
           />
         </View>
       </View>
@@ -88,6 +155,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+    
   },
 
   inputFields: {
@@ -154,6 +222,26 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 10,
   },
+
+  flipCard: {
+    width: 300,
+    height: 200,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 7,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 30,
+    left: 42,
+
+  },
+
 });
 
 export default App;

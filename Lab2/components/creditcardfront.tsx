@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BackHandler, Image, ImageBackground, ImageSourcePropType, StyleSheet, Text, View } from 'react-native';
 
 import chip from '../assets/images/chip.png';
-import cardFrontImage from '../assets/images/6.jpeg';
+import cardImage from '../assets/images/6.jpeg';
 
 import visa from '../assets/images/visa.png';
 import dinersclub from '../assets/images/dinersclub.png';
@@ -14,56 +14,34 @@ import unionpay from '../assets/images/unionpay.png';
 
 type Props = {
   cardNumber: string;
+  handleCompanyImage: () => ImageSourcePropType;
   name: string;
   month: string;
   year: string;
-  cvv: string;
 };
 
 let compImage: ImageSourcePropType;
 
-const CreditCard = ({cardNumber, name, month, year, cvv}: Props) => {
+const CreditCardFront = ({cardNumber, name, month, year, handleCompanyImage}: Props) => {
 
-  const handleCompanyImage = () => {
-    if(cardNumber[0] === '3' && cardNumber[1] === '5') {
-      return jcb;
-    }
-    else if(cardNumber[0] === '3'){
-      return dinersclub;
-    }
-    else if(cardNumber[0] === '4') {
-      return visa;
-    }
-    else if(cardNumber[0] === '5') {
-      return mastercard;
-    }
-    else if(cardNumber[0] === '6' && cardNumber[1] === '2'){
-      return unionpay; 
-    }
-    else if(cardNumber[0] === '6' && cardNumber[1] === '5'){
-      return troy; 
-    }
-    else {
-      return discover;
-    }
-  }
+  
 
   compImage = handleCompanyImage();
 
   return (
     <ImageBackground 
-      source={cardFrontImage}
+      source={cardImage}
       style={styles.card}
       imageStyle={{ borderRadius: 10 }}>
       <View style={styles.imageRow}>
         <Image style={{flex: 0.2, width: undefined, height: undefined, resizeMode: 'contain' }} source={chip} />
         <Image style={{flex: 0.35, width: undefined, height: undefined, resizeMode: 'contain' }} source={compImage} />
       </View>
-      <View style={styles.numberWrapper}><Text style={styles.hugeFont}>{cardNumber}</Text></View>
+      <View style={styles.numberWrapper}><Text style={styles.hugeFont}>{((cardNumber === '') ? "#### #### #### ####" : cardNumber)}</Text></View>
       <View style={styles.inputText}>
         <View style={styles.cardName}>
           <Text style={styles.font}>Card Holder</Text>
-          <Text style={styles.bigFont}>{name}</Text> 
+          <Text style={styles.bigFont}>{((name === '') ? 'John Doe' : name)}</Text> 
         </View>
         <View style={styles.expires}>
           <Text style={styles.font}>Expires</Text>
@@ -98,9 +76,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 200,
     borderRadius: 20,
-    position: 'absolute',
-    top: 30,
-    left: 42,
+    
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -144,4 +120,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default CreditCard;
+export default CreditCardFront;

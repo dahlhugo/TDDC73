@@ -9,14 +9,16 @@ export type Props = {
   data: string[];
 	buttonText: string;
 	onSelectItem: (item: string) => void;
+	onFocus: () => void;
 }
 
-const DropDown = ({data, buttonText = "choose option", onSelectItem	}: Props) => {
+const DropDown = ({data, buttonText = "choose option", onSelectItem, onFocus, }: Props) => {
 
 	return (
 		<SelectDropdown data={data} buttonStyle={styles.select} defaultButtonText={buttonText} buttonTextStyle={styles.text}
 			onSelect={(selectedItem, index) => {
 				onSelectItem(selectedItem);
+				
 			}} 
 			buttonTextAfterSelection={(selectedItem, index) => {
 				return selectedItem;
@@ -25,6 +27,7 @@ const DropDown = ({data, buttonText = "choose option", onSelectItem	}: Props) =>
 				return item;
 			}}
 			renderDropdownIcon={() => {return <Image style={{width: 10, height: 10}} source={icon}/>}}
+			onFocus={onFocus}
 		/>);
 }
 

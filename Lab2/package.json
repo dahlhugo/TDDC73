@@ -10,9 +10,11 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "card": "^2.5.4",
     "react": "18.1.0",
     "react-devtools": "^4.26.1",
     "react-native": "0.70.6",
+    "react-native-flip-card-plus": "^2.0.0",
     "react-native-select-dropdown": "^3.0.3"
   },
   "devDependencies": {
