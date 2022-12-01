@@ -31,38 +31,25 @@ const App = () => {
   );
 
   const getData = useCallback(async (language: string) => {
-    if (lang === '') {
-      try {
-        const lastWeek = moment().subtract('w', 1).format('YYYY-MM-DD');
-
-        await fetch(
-          `https://api.github.com/search/repositories?q=sort=stars&order=desc&created:> ${lastWeek}`,
-          { headers: { Authorization: 'Bearer ' + TOKEN } },
-        )
-          .then(res => res.json())
-          .then(resJson => setData(resJson.items));
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
+    const lastWeek = moment().subtract('w', 1).format('YYYY-MM-DD');
+    let query: string = '';
+    if(language !== '') {
+      query = `https://api.github.com/search/repositories?q=language:${language}&sort=stars&order=desc&created:> ${lastWeek}`;
     } else {
-      try {
-        const lastWeek = moment().subtract('w', 1).format('YYYY-MM-DD');
-
-        await fetch(
-          `https://api.github.com/search/repositories?q=language:${language}&sort=stars&order=desc&created:> ${lastWeek}`,
-          { headers: { Authorization: 'Bearer ' + TOKEN } },
-        )
-          .then(res => res.json())
-          .then(resJson => setData(resJson.items));
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
+      query = `https://api.github.com/search/repositories?q=sort=stars&order=desc&created:> ${lastWeek}`;
     }
-  }, []);
+
+    try {
+      await fetch(query, { headers: { Authorization: 'Bearer ' + TOKEN } })
+        .then(res => res.json())
+        .then(resJson => setData(resJson.items));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+    , []);
 
   const useGetRepos = (language: string) => {
     useEffect(() => {
@@ -73,7 +60,7 @@ const App = () => {
   };
 
   useGetRepos(lang);
-  console.log(lang);
+  
   return (
     <NativeBaseProvider>
       {!isLoading ? (
