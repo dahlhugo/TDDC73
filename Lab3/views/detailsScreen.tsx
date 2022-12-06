@@ -14,9 +14,9 @@ const DetailsScreen = ({route, navigation}: DetailsProps): JSX.Element => {
       <View>
         <Text>{route.params.repo.license}</Text>
         <Text>{route.params.repo.commits}</Text>
-        <Text>{route.params.repo.title}</Text>
+        <Text>{route.params.repo.branches}</Text>
       </View>
-      <Button>Back</Button>
+      <Button onPress={() => navigation.goBack()}>Back</Button>
     </View>
   );
 }
