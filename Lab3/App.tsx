@@ -40,7 +40,7 @@ const App = () => {
     }
 
     try {
-      await fetch(query, { headers: { Authorization: 'Bearer ' + TOKEN } })
+      await fetch(query)
         .then(res => res.json())
         .then(resJson => setData(resJson.items));
     } catch (error) {
