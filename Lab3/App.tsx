@@ -33,7 +33,7 @@ const App = () => {
   const getData = useCallback(async (language: string) => {
     const lastWeek = moment().subtract('w', 1).format('YYYY-MM-DD');
     let query: string = '';
-    if(language !== '') {
+    if (language !== '') {
       query = `https://api.github.com/search/repositories?q=language:${language}&sort=stars&order=desc&created:> ${lastWeek}`;
     } else {
       query = `https://api.github.com/search/repositories?q=sort=stars&order=desc&created:> ${lastWeek}`;
@@ -60,7 +60,7 @@ const App = () => {
   };
 
   useGetRepos(lang);
-  
+
   return (
     <NativeBaseProvider>
       {!isLoading ? (
