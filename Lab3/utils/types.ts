@@ -2,8 +2,8 @@ export type RepoData = {
   title: string;
   description: string;
   license: string;
-  commits: number;
-  branches: number;
+  stars: number;
+  forks: number;
 };
 
 export type RootStackParamList = {

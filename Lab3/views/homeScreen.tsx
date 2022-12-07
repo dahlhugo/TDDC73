@@ -50,8 +50,8 @@ const HomeScreen = ({ route, navigation }: HomeProps): JSX.Element => {
       title: item.name,
       description: item.description,
       license: item.license !== null ? item.license.name : 'No License',
-      commits: 10,
-      branches: 10,
+      stars: item.stargazers_count,
+      forks: item.forks_count,
     }
 
     return (
